@@ -1,0 +1,62 @@
+<div class="w-60 md:w-80 ">
+  <h2 class="text-xl my-2">
+    {{ isEdit ? "Update User Details" : "Add  new User" }}
+  </h2>
+  <form class="flex flex-col gap-2" [formGroup]="userForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="name"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. zaid shaikh"
+      />
+      <mat-error *ngIf="userForm.get('name')?.hasError('required')">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input
+        type="email"
+        matInput
+        formControlName="email"
+        [errorStateMatcher]="matcher"
+        placeholder="Ex. zaid@example.com"
+      />
+      <mat-error
+        *ngIf="
+          userForm.get('email')?.hasError('email') &&
+          !userForm.get('email')?.hasError('required')
+        "
+      >
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+        Email is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Role</mat-label>
+      <select matNativeControl required formControlName="role">
+        <option value="admin">Admin</option>
+        <option value="user">User</option>
+      </select>
+      <mat-error *ngIf="userForm.get('role')?.hasError('required')">
+        Role is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="userForm.invalid"
+      (click)="saveUser()"
+    >
+      Save
+    </button>
+  </form>
+</div>
